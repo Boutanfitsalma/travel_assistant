@@ -124,8 +124,6 @@ OPENROUTER_MODEL=openrouter/free
 LLM_REQUEST_TIMEOUT_SECONDS=30
 ```
 
-Le fichier `.env` reste local et ne doit jamais être commité.
-
 ## Lancement
 
 Pour la démonstration, lancer sans rechargement automatique afin que la création de l'index Chroma ne rafraîchisse pas la page :
