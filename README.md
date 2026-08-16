@@ -1,7 +1,8 @@
 # AI Travel Assistant
 
 Assistant conversationnel en français pour une compagnie aérienne. Il combine une base documentaire RAG et des outils métier pour fournir des réponses traçables.
-<img width="942" height="825" alt="image" src="https://github.com/user-attachments/assets/5dfaffad-8f4b-465d-a66f-b778fd0a90f0" />
+
+<img width="900" height="800" alt="image" src="https://github.com/user-attachments/assets/5dfaffad-8f4b-465d-a66f-b778fd0a90f0" />
 
 ## Démarrage rapide
 
