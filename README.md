@@ -1,6 +1,6 @@
 # AI Travel Assistant
 
-Assistant conversationnel en français pour une compagnie aérienne, réalisé pour le challenge technique. Il combine une base documentaire RAG et des outils métier pour fournir des réponses traçables.
+Assistant conversationnel en français pour une compagnie aérienne. Il combine une base documentaire RAG et des outils métier pour fournir des réponses traçables.
 
 ## Démarrage rapide
 
@@ -195,4 +195,3 @@ Données mock disponibles : `ABC123` est la seule réservation de démonstration
 - La mémoire est en RAM : elle n'est ni persistante ni partagée entre plusieurs instances. Redis avec expiration conviendrait à une version distribuée.
 - L'application ne contient pas encore d'authentification ni de limitation de débit ; elles seraient indispensables avec des données clients réelles.
 - En production, définir `APP_ENV=production` et `ALLOWED_ORIGINS` avec les domaines exacts du frontend.
-- Les réponses restent générées par un LLM : les garde-fous et les sources affichées réduisent le risque d'erreur, mais une validation métier reste nécessaire pour une décision financière réelle.
