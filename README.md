@@ -11,7 +11,9 @@ pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-Dans `.env`, renseigner une clé créée depuis son propre compte OpenRouter :
+Dans `.env`, renseigner une clé créée depuis son propre compte OpenRouter. La
+page de gestion et de création des clés est disponible sur
+[OpenRouter Keys](https://openrouter.ai/keys) (connexion requise) :
 
 ```env
 OPENROUTER_API_KEY=your_key_here
