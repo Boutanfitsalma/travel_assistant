@@ -40,6 +40,22 @@ interactive de l'API est également disponible sur <http://127.0.0.1:8000/docs>.
 - Mémoire de conversation par `conversation_id`, conservée 30 minutes en RAM.
 - API FastAPI, interface de démonstration (`demo.html`) et source affichée pour chaque réponse : `rag`, le nom de l'outil, ou les deux.
 
+## Réponse directe aux exigences du challenge
+
+| Exigence | Réalisation dans ce projet |
+| --- | --- |
+| API conversationnelle | Endpoint FastAPI `POST /chat` dans `main.py`, avec contrat de requête/réponse documenté ci-dessous. |
+| RAG pour les règles générales | 7 documents `.txt` indexés dans ChromaDB et recherchés sémantiquement par `rag.py`. |
+| Outils dynamiques | Les 4 outils demandés sont présents dans `tools.py` : recherche de vols, statut, aéroport et réservation. |
+| Bon routage des sources | `llm.py` route règles vers le RAG et données variables vers les outils ; la source utilisée est retournée au client. |
+| Cas combiné annulation + remboursement | `get_flight_status` et le RAG sont imposés côté serveur avant la réponse. |
+| Ne pas inventer d'information | Validations de numéro/date/référence, données inconnues signalées et contexte d'outil vérifié. |
+| Démonstration | Interface `demo.html`, documentation Swagger `/docs` et scénarios de test dans ce README. |
+| Tests | 29 tests automatisés, dont 4 tests d'intégration avec le LLM, activables séparément. |
+| Documentation et choix techniques | Architecture, routage, RAG, modèle génératif, limites et commandes de lancement expliqués dans ce README. |
+
+Bonus réalisés : mémoire de conversation, gestion explicite des erreurs LLM, logs de requêtes avec identifiant de corrélation, endpoint de santé et interface de démonstration.
+
 ## Architecture
 
 ```text
@@ -74,7 +90,11 @@ L'index est persistant dans `chroma_db/`. Une empreinte des documents est enregi
 
 ### Modèle génératif
 
-Le modèle génératif est appelé via OpenRouter. Il lit la question, l'historique et les données issues du RAG ou des outils, rédige la réponse en français et peut demander l'appel d'une fonction via le function calling. Cette séparation permet de modifier une politique dans un fichier `.txt` sans réentraîner le modèle.
+Le modèle génératif est appelé via OpenRouter. La configuration par défaut utilise [`openrouter/free`](https://openrouter.ai/docs/guides/routing/routers/free-router), le routeur de modèles gratuits d'OpenRouter : il sélectionne un modèle gratuit disponible compatible avec les capacités requises, notamment le function calling. Ce choix évite de dépendre d'un modèle gratuit unique et permet de changer de modèle sans modifier le code, simplement via `OPENROUTER_MODEL`.
+
+Il ne s'agit pas d'une garantie de haute disponibilité : les modèles gratuits peuvent être limités ou temporairement indisponibles. Si aucun modèle ne répond, l'API renvoie une erreur `503` claire plutôt qu'une réponse inventée. Pour une version de production, il serait préférable de sélectionner un modèle payant précis et de prévoir une stratégie de repli.
+
+Le modèle lit la question, l'historique et les données issues du RAG ou des outils, rédige la réponse en français et peut demander l'appel d'une fonction via le function calling. Cette séparation permet de modifier une politique dans un fichier `.txt` sans réentraîner le modèle.
 
 ### Routage et fiabilité
 
